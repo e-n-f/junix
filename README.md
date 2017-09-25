@@ -50,6 +50,29 @@ $ jecho "hello world" ":{ \"foo\": true }" 12345
 12345
 ```
 
+jarg
+----
+
+`jarg` stringifies its input objects using the command line argument quoting conventions,
+so that output of one command can be passed as arguments to another. The idea is that
+
+    jecho $(jwhatever | jarg)
+
+should be equivalent to `jwhatever` on its own.
+
+```
+$ jecho "hello world" ":{ \"foo\": true }" 12345 | jarg
+:"hello\u0020world" :{"foo":true} :12345
+```
+
+Note that spaces within strings are quoted to avoid creating separate shell arguments.
+The only spaces in the output separate JSON objects.
+
+jcat
+----
+
+`jcat` concatenates JSON streams, which is basically like concatenating any other streams.
+
 jarray
 ------
 
@@ -58,4 +81,32 @@ jarray
 ```
 $ jecho "hello world" ":{ \"foo\": true }" 12345 | jarray
 ["hello world",{"foo":true},12345]
+```
+
+junarray
+--------
+
+`junarray` removes an array wrapper from its input. It is an error if an
+input object is not an array. If there are multiple arrays in the input,
+their contents are merged together.
+
+```
+$ jecho ":[1,2,3]" ":[4,5]" | junarray
+1
+2
+3
+4
+5
+```
+
+jkeys
+-----
+
+`jkeys` extracts the keys of each hash in its input into an array. It is an error
+if an input object is not a hash.
+
+```
+$ jecho ":{\"foo\": true, \"bar\": false}" ":{\"yes": \"no\"}"
+["foo","bar"]
+["yes"]
 ```
