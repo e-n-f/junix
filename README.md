@@ -53,7 +53,7 @@ $ jecho "hello world" ":{ \"foo\": true }" 12345
 jarg
 ----
 
-`jarg` stringifies its input objects using the command line argument quoting conventions,
+`jarg` stringifies its input objects using the command line argument `:` quoting conventions,
 so that output of one command can be passed as arguments to another. The idea is that
 
     jecho $(jwhatever | jarg)
@@ -62,11 +62,13 @@ should be equivalent to `jwhatever` on its own.
 
 ```
 $ jecho "hello world" ":{ \"foo\": true }" 12345 | jarg
-:"hello\u0020world" :{"foo":true} :12345
+:"hello\u0020world"
+:{"foo":true}
+:12345
 ```
 
 Note that spaces within strings are quoted to avoid creating separate shell arguments.
-The only spaces in the output separate JSON objects.
+The only whitespace in the output separates JSON objects.
 
 jcat
 ----
@@ -115,7 +117,7 @@ jls
 ---
 
 It might be nice if the output of plain `jls` were just a stream of strings, but this
-interacts badly with recursive or long listings. So instead they are hash keys, and
+creates needless incompatibility with recursive or long listings. So instead they are hash keys, and
 if you just want the names, you can use `jkeys`.
 
 ```
