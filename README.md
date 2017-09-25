@@ -207,3 +207,27 @@ is a child of, as opposed to the entire hash that it is a child of.
 ```
 jgrep -F 'key != undef && (parentkey == null || parentkey == "entries')" 'key =~ /\.pdf$/i'
 ```
+
+# awk
+# comm
+# cut
+# du
+# expr
+# file
+# find
+# head
+# join
+# last
+# less
+# paste
+# ps
+# sed
+# sort
+# tail
+# test
+# tr
+# uniq
+# vi
+# wc
+# who
+# xargs
