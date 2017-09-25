@@ -162,3 +162,48 @@ $ jls -r /
 ```
 
 TBD: How should tersely or verbosely should permissions be reported?
+
+jgrep
+-----
+
+Grep is hard. There needs to be support for specifying both
+
+ * the unit of analysis, and
+ * the pattern to be matched
+
+and the unit of analysis may be
+
+ * top-level objects
+ * objects in an array, or
+ * key-value pairs, by key or value
+
+and the pattern is probably an arbitrary JS-like expression, not something compact like a regular expression,
+although the pattern match will probably involve regular expression matching.
+
+If the unit of analysis is not top-level objects, should the wrappers be retained?
+*Must* the wrappers be retained if key-value pairs are the unit of analysis?
+
+### GeoJSON
+
+To grep GeoJSON, you need to specify how to recognize a feature, and then an expression for which
+features you are interested in. So something like:
+
+```
+jgrep -F 'type == "Feature"' 'properties.MTFCC =~ /^S/'
+```
+
+to split on Features and to select the ones that are TIGER roads.
+
+### ls
+
+If directory entries are hash keys, and you want to select, say, all the PDF files in a recursive `ls`,
+then you need first of all to be able to recognize which hash keys are filenames (as opposed to keys for
+the file size and date), and then to match on them.
+
+Maybe the answer is to treat each key-value pair as a temporary pseudo-object with `key` and `value` components?
+Also requires magic `parentkey` and `parentvalue` references to talk about the the key-value pair that this
+is a child of, as opposed to the entire hash that it is a child of.
+
+```
+jgrep -F 'key != undef && (parentkey == null || parentkey == "entries')" 'key =~ /\.pdf$/i'
+```
