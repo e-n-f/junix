@@ -36,3 +36,26 @@ is equivalent to `:"\"hello\""`, with nested quotation marks.
 
 (A future shell should also be aware of these conventions for `*` expansion
 and tab completion.)
+
+jecho
+-----
+
+`jecho` prints its arguments. By convention and for readability, each is printed
+on a separate line, although they could be separated by any whitespace in practice.
+
+```
+$ jecho "hello world" ":{ \"foo\": true }" 12345
+"hello world"
+{"foo":true}
+12345
+```
+
+jarray
+------
+
+`jarray` wraps the JSON objects that it reads in an array.
+
+```
+$ jecho "hello world" ":{ \"foo\": true }" 12345 | jarray
+["hello world",{"foo":true},12345]
+```
