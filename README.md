@@ -110,3 +110,53 @@ $ jecho ":{\"foo\": true, \"bar\": false}" ":{\"yes": \"no\"}"
 ["foo","bar"]
 ["yes"]
 ```
+
+jls
+---
+
+It might be nice if the output of plain `jls` were just a stream of strings, but this
+interacts badly with recursive or long listings. So instead they are hash keys, and
+if you just want the names, you can use `jkeys`.
+
+```
+$ jls / | jkeys
+"bin"
+"dev"
+"etc"
+"usr"
+"tmp"
+```
+
+```
+$ jls -l /
+{
+	"bin": { "user": "root", "group": "wheel", "bytes": 1326, "modified": "2016-08-01T12:34:45Z", "type": "directory" },
+	"dev": { "user": "root", "group": "wheel", "bytes": 4218, "modified": "2016-08-29T11:22:33Z", "type": "directory" },
+	...
+}
+```
+
+```
+$ jls -r /
+{
+	"bin": {
+		"entries": {
+			"bash":{}, "cat":{}, "chmod":{}, "cp":{}, "date":{}, ...
+		}
+	},
+	"usr": {
+		"entries": {
+			"bin": {
+				"entries": { "awk":{}, "bc":{}, "c++":{}, ... }
+			},
+			"include": {
+				"entries": { "stdio.h":{}, "stdlib.h":{}, "unistd.h":{}, ... }
+			},
+			...
+		}
+	},
+	...
+}
+```
+
+TBD: How should tersely or verbosely should permissions be reported?
