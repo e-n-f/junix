@@ -208,6 +208,14 @@ is a child of, as opposed to the entire hash that it is a child of.
 jgrep -F 'key != undef && (parentkey == null || parentkey == "entries')" 'key =~ /\.pdf$/i'
 ```
 
+### Grepping multiple files
+
+Traditional grep output is just the matched text if there is one input, and the name of the file followed
+by the matched text if there are multiple files.
+
+Should the top level be a hash mapping filenames to an array of the objects that were matched in each one?
+With an empty string as the key if searching the standard input?
+
 # awk
 # comm
 # cut
